@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos</title>
+    <link rel="stylesheet" href="public/styles.css">
+</head>
+<body class="flex flex-row h-screen justify-center">
+    <div id="app" class="container flex flex-col h-screen">
+    <header class="bg-blue-500 py-2 text-center text-2xl text-white font-semibold">TO-DOs_HTML_JS_TAILWIND</header>
+    <main class="overflow-auto flex flex-row flex-grow">
+        <menu class="flex flex-col p-2 gap-2">
+            <button class="text-xl bg-sky-400 p-2 rounded-md transition-all duration-100 hover:bg-blue-500 active:bg-blue-300">Создать</button>
+            <button class="text-xl bg-red-400 p-2 rounded-md transition-all duration-100 hover:bg-red-500 active:bg-red-300">Очистить</button>
+        </menu>
+        
+        
+        <ul class="overflow-auto flex flex-col flex-grow">
+            <template>
+            <li class="border-2 rounded-lg p-2 my-2 mx-1 bg-gradient-to-tl from-blue-300 via-blue-200 to-blue-300 shadow-slate-200 transition-all duration-200 hover:my-5">
+                <h2 class="text-2xl font-semibold"></h2>
+                <span class=""></span>
+            </li>
+            </template>
+        </ul>
+    </main>
+    <footer class="bg-blue-300 py-2 text-center text-2xl text-black bg-gradient-to-r from-blue-500 via-green-500 to-red-500">
+        Собственно опять ненужный футер) Зато разноцветный)
+    </footer>
+</div>
+</body>
+</html>
