@@ -9,25 +9,78 @@
 <body class="flex flex-row h-screen justify-center">
     <div id="app" class="container flex flex-col h-screen">
     <header class="bg-blue-500 py-2 text-center text-2xl text-white font-semibold">TO-DOs_HTML_JS_TAILWIND</header>
-    <main class="overflow-auto flex flex-row flex-grow">
-        <menu class="flex flex-col p-2 gap-2">
-            <button class="text-xl bg-sky-400 p-2 rounded-md transition-all duration-100 hover:bg-blue-500 active:bg-blue-300">Создать</button>
-            <button class="text-xl bg-red-400 p-2 rounded-md transition-all duration-100 hover:bg-red-500 active:bg-red-300">Очистить</button>
+    <main class="overflow-auto flex flex-col flex-grow md:flex-row">
+        <menu class="flex flex-row p-2 gap-2 md:flex-col">
+            <button id="openDialogCreateButton" class="text-xl bg-sky-400 p-2 rounded-md transition-all duration-100 hover:bg-blue-500 active:bg-blue-300">Создать</button>
+            <button id="clearTasksButton" class="text-xl bg-red-400 p-2 rounded-md transition-all duration-100 hover:bg-red-500 active:bg-red-300">Очистить</button>
+            <button id="refreshTasksButton" class="text-xl bg-orange-400 p-2 rounded-md transition-all duration-100 hover:bg-orange-500 active:bg-orange-300">Обновить</button>
         </menu>
         
         
-        <ul class="overflow-auto flex flex-col flex-grow">
-            <template>
-            <li class="border-2 rounded-lg p-2 my-2 mx-1 bg-gradient-to-tl from-blue-300 via-blue-200 to-blue-300 shadow-slate-200 transition-all duration-200 hover:my-5">
-                <h2 class="text-2xl font-semibold"></h2>
-                <span class=""></span>
-            </li>
-            </template>
+        <ul id="tasks_panel" class="overflow-auto flex flex-col flex-grow">
+
         </ul>
     </main>
-    <footer class="bg-blue-300 py-2 text-center text-2xl text-black bg-gradient-to-r from-blue-500 via-green-500 to-red-500">
+    <footer class="bg-blue-300 py-2 text-center text-1xl text-black bg-gradient-to-r from-blue-500 via-green-500 to-red-500">
         Собственно опять ненужный футер) Зато разноцветный)
     </footer>
 </div>
+
+<template id="template_task">
+    <li name="task" class="relative block border-2 rounded-lg p-2 my-2 mx-3 bg-gradient-to-tl from-blue-300 via-blue-200 to-blue-300 shadow-slate-200 transition-all duration-200 hover:my-5">
+        <h2 class="text-2xl font-semibold"></h2>
+        <span ></span>
+        <button name="deleteTaskButton" class="border-2 rounded-full  border-red-400 bg-red-400 absolute -left-2 -bottom-4"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+        </button>
+        <button name="editTaskButton" class="border-2 rounded-full  border-orange-400 bg-orange-400 absolute left-6 -bottom-4"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+          </svg>          
+        </button>
+    </li>
+</template>
+
+<template id="none_task">
+        <li name="none_task" class="text-center text-xl flex-grow my-2">
+            Нет задач
+        </li>
+</template>
+
+<template id="create_dialog_template">
+    <div id="create_dialog" class="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded shadow-lg w-[90%] md:w-[500px] flex flex-col">
+          <h2 class="text-lg font-bold mb-1">Название задачи: </h2>
+          <input id="task_title" type="text" class="border-2"/>
+          <h2 class="text-lg font-bold mb-1">Описание задачи: </h2>
+          <textarea id="task_description" class="border-2"></textarea>
+          <button id="closeDialogButton" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            Закрыть диалог
+          </button>
+          <button id="createTaskDialogButton" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Создать задачу
+          </button>
+        </div>
+      </div>
+</template>
+
+<template id="edit_dialog_template">
+    <div id="edit_dialog" class="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded shadow-lg w-[90%] md:w-[500px] flex flex-col">
+          <h2 class="text-lg font-bold mb-1">Название задачи: </h2>
+          <input id="task_title" type="text" class="border-2"/>
+          <h2 class="text-lg font-bold mb-1">Описание задачи: </h2>
+          <textarea id="task_description" class="border-2"></textarea>
+          <button id="closeDialogButton" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            Закрыть диалог
+          </button>
+          <button id="editTaskDialogButton" class="mt-4 bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+            Изменить задачу
+          </button>
+        </div>
+      </div>
+</template>
 </body>
+<script src="index.js"></script>
+
 </html>
