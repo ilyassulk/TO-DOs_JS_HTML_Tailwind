@@ -64,10 +64,36 @@ function deleteTask(taskId) {
 }
 
 function addTask(task){
-    task = {id: Date.now() , ...task}
+    if(task.title === "") return;
+
+    if(task.id != undefined){
+        task.id = Date.now();
+    }
+    else{
+        task = {id: Date.now() , ...task}
+    }
+    task.do = false;
     saveTask(task);
     drawTasks();
 }
+
+function toggleTask(idTask) {
+    // Получаем массив задач из localStorage
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    // Ищем задачу с указанным id
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === idTask) {
+            // Инвертируем значение поля 'do'
+            tasks[i].do = !tasks[i].do;
+            break;
+        }
+    }
+
+    // Сохраняем обновлённый массив задач обратно в localStorage
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
 
 function saveTask(task){
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -108,20 +134,24 @@ function drawTasks() {
 else{
 setNoneTask()
 }
-
 }
 
 function addTaskHTML(task){
     const clone = document.importNode(task_template.content, true);
-    const title = clone.querySelector('h2');
+    const title = clone.querySelector('#title');
     const description = clone.querySelector('span');
     const deleteButton = clone.querySelector("[name='deleteTaskButton']");
     const editButton = clone.querySelector("[name='editTaskButton']");
+    const copyButton = clone.querySelector("[name='copyTaskButton']");
+    const checkBox = clone.querySelector("#is_do");
 
+    checkBox.checked  = task.do;
     title.textContent = task.title;
     description.textContent = task.description;
     deleteButton.addEventListener('click', ()=>{ deleteTask(task.id)})
     editButton.addEventListener('click', ()=>{ openEditDialog(task)})
+    copyButton.addEventListener('click', ()=>{ addTask(task)})
+    checkBox.addEventListener('click', ()=>{toggleTask(task.id)})
 
     tasks_panel.appendChild(clone)
 }
